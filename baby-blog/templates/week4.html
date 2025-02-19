@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Week 4 - Life in Advance Database</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/">MICKALI GARBUTT</a>
+        </div>
+    </header>
+
+        <!-- Navigation Bar -->
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="week1.html">Week 1</a></li>
+                <li><a href="week2.html">Week 2</a></li>
+                <li><a href="week3.html">Week 3</a></li>
+                <li><a href="week4.html">Week 4</a></li>
+                <li><a href="week5.html">Week 5</a></li>
+            </ul>
+        </nav>
+    
+    <main>
+        <h1>Week 4</h1>
+        <p>In Week 4, we learned about middleware, which operates between a web server's 
+           request and response processes. Middleware handlers can modify requests or responses, 
+           pass control to the next handler, or terminate the execution chain. We distinguished 
+           between global/app-level middleware, which processes every request and response, and 
+           route-specific middleware, which handles requests for specific URL paths. Additionally, 
+           we discussed backend architecture, which includes the application server that executes 
+           business logic, data validation, and permission checks, as well as the storage system that 
+           typically uses a database management system (DBMS) like PostgreSQL or MongoDB. Understanding 
+           these concepts is crucial for developing efficient web applications that manage data and user 
+           interactions.</p>
+           <pre>
+            <code>
+                // Filename: main.go
+                // Description: This is a simple web server written in Go. It demonstrates the use of HTTP handlers,
+                // custom middleware for logging and admin authorization, and how to route different URL paths.
+                
+                package main
+                
+                import (
+                    "log"       // Provides logging capabilities
+                    "net/http"  // Provides HTTP client and server implementations
+                    "time"      // Provides functionality for measuring and displaying time
+                )
+                
+                // ----------------------------
+                // HTTP HANDLERS
+                // ----------------------------
+                
+                // home is a basic handler that responds with a welcome message.
+                // It is mapped to the root path ("/").
+                func home(w http.ResponseWriter, r *http.Request) {
+                    w.Write([]byte("Hello from Flash"))
+                }
+                
+                // user is a handler that responds with a message identifying the user.
+                // This endpoint is protected by adminMiddleware, meaning only requests with a valid header will succeed.
+                func user(w http.ResponseWriter, r *http.Request) {
+                    w.Write([]byte("I am a user!"))
+                }
+                
+                // info is a handler that responds with personal information.
+                // It is mapped to the URL path "/info".
+                func info(w http.ResponseWriter, r *http.Request) {
+                    w.Write([]byte("My name is Mickali Garbutt. I'm 22 years old."))
+                }
+                
+                // color is a handler that responds with a statement about a favorite color.
+                // It is mapped to the URL path "/color".
+                func color(w http.ResponseWriter, r *http.Request) {
+                    w.Write([]byte("My favorite color is green but like a sage green not grass green."))
+                }
+                
+                // ----------------------------
+                // MIDDLEWARE FUNCTIONS
+                // ----------------------------
+                
+                // loggingMiddleware is a middleware function that logs each incoming HTTP request.
+                // It records the HTTP method, request URI, and the timestamp when the request was received.
+                func loggingMiddleware(next http.Handler) http.Handler {
+                    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+                        // Record the current time
+                        start := time.Now()
+                        // Log the HTTP method, request URI, and formatted start time
+                        log.Printf("Method: %s | URI: %s | Time: %s", r.Method, r.URL.Path, start.Format(time.RFC3339))
+                        // Pass control to the next handler in the chain
+                        next.ServeHTTP(w, r)
+                    })
+                }
+                
+                // adminMiddleware is a route-specific middleware function that ensures
+                // the request has a header "X-Admin" set to "true". If the header is missing or incorrect,
+                // it returns a 403 Forbidden response.
+                func adminMiddleware(next http.Handler) http.Handler {
+                    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+                        // Check if the "X-Admin" header is set to "true"
+                        if r.Header.Get("X-Admin") != "true" {
+                            // Return a 403 Forbidden error if the check fails
+                            http.Error(w, "Forbidden", http.StatusForbidden)
+                            return
+                        }
+                        // If the check passes, continue to the next handler
+                        next.ServeHTTP(w, r)
+                    })
+                }
+                
+                // ----------------------------
+                // MAIN FUNCTION AND ROUTING
+                // ----------------------------
+                
+                func main() {
+                    // Create a new ServeMux which will act as the request router.
+                    mux := http.NewServeMux()
+                
+                    // Register the home handler to the root path.
+                    mux.HandleFunc("/", home)
+                
+                    // For the /user endpoint, wrap the user handler with adminMiddleware.
+                    // This ensures that only requests with the proper "X-Admin" header are allowed.
+                    mux.Handle("/user", adminMiddleware(http.HandlerFunc(user)))
+                
+                    // Register the info handler to the "/info" path.
+                    mux.HandleFunc("/info", info)
+                
+                    // Register the color handler to the "/color" path.
+                    mux.HandleFunc("/color", color)
+                
+                    // Log a message indicating that the server is starting.
+                    log.Println("Starting server on port :4000")
+                
+                    // Start the HTTP server on port 4000.
+                    // The loggingMiddleware wraps the mux so that every request gets logged.
+                    err := http.ListenAndServe(":4000", loggingMiddleware(mux))
+                    // If the server fails to start, log the error and exit.
+                    log.Fatal(err)
+                }
+                
+                // ----------------------------
+                // ADDITIONAL NOTES
+                // ----------------------------
+                //
+                // 1. Running the Server:
+                //    - To start the server, run: go run main.go
+                //
+                // 2. Testing Endpoints:
+                //    - Visit http://localhost:4000/ to see the home message.
+                //    - For the /user endpoint, use a tool like curl with the header:
+                //         curl -i -H "X-Admin: true" http://localhost:4000/user
+                //      Without the proper header, this endpoint will return a 403 Forbidden error.
+                //
+                // 3. Middleware:
+                //    - The loggingMiddleware is applied globally to all routes.
+                //    - The adminMiddleware is applied only to the /user route to restrict access.
+            </code>
+        </pre>
+           <p>Key topics included:</p>
+           <ul>
+               <li>Middleware in Web Development</li>
+               <li>Backend Architecture</li>
+               <li>Importance of Middleware & Backend Architecture</li>
+           </ul>
+        <a href="week5.html" class="next-week">Next Week</a>
+    </main>
+</body>
+</html>
