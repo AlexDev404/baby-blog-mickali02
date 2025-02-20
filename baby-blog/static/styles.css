@@ -19,19 +19,32 @@ body {
   margin: 20px auto;
   padding: 0 20px;
   line-height: 1.5;
+  background-image: url('../resource/miffy.png');
+  background-size: cover; /* Cover the entire viewport */
+  background-position: center; /* Center the image */
+  background-attachment: fixed; /* Keep it fixed while scrolling */
+  background-repeat: no-repeat; /* Prevent repeating */
+
 }
 
 h1 {
-  color: #333;
+  font-family: 'Montserrat', sans-serif;
+  color: #3266c7;
   margin-bottom: 20px;
   font-size: 2rem;
 }
 
 p {
+  font-family: 'Montserrat', sans-serif;
+  color:#244b94;
   margin-bottom: 15px;
   font-size: 1rem;
 }
 
+ul {
+  font-family: 'Montserrat', sans-serif;
+  color:#244b94;
+}
 pre,
 code {
   font-family: "Courier New", monospace;
@@ -48,7 +61,7 @@ pre {
 }
 
 code {
-  background-color: #f6f8fa;
+  background-color: #ffffff;
   padding: 2px 4px;
 }
 
@@ -57,8 +70,13 @@ header {
 }
 
 .logo {
+  font-family: 'Playfair Display', serif; /* Apply Playfair Display font */
+  color: white;
+  text-decoration: none;
+  font-weight: 900; /* Use the heaviest weight */
+  font-size: 24px; /* Adjust size as needed */
   display: inline-block;
-  background-color: #333;
+  background-color: #819cd8;
   padding: 8px 15px;
   margin-left: 20px;
 }
@@ -68,4 +86,93 @@ header {
   text-decoration: none;
   font-weight: 500;
   font-size: 18px;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two cards per row */
+  gap: 20px; /* Space between tiles */
+  padding: 20px 0;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.9); /* Opaque white */
+  border-radius: 15px; /* Rounded edges */
+  padding: 15px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tile:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.tile img {
+  width: 100px; /* Adjust as needed */
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.tile span {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* Navigation Bar Styles */
+nav {
+  background-color: #819cd8; /* Change this color to customize */
+  padding: 10px 0; /* Vertical padding for the nav */
+}
+
+.nav-list {
+  list-style: none; /* Remove bullet points */
+  display: flex; /* Use flexbox for layout */
+  justify-content: center; /* Center the nav items */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+}
+
+.nav-list li {
+  margin: 0 15px; /* Space between the nav items */
+}
+
+.nav-list a {
+  text-decoration: none; /* Remove underline */
+  color: white; /* Text color */
+  font-family: 'Montserrat', sans-serif; /* Use Montserrat font */
+  font-weight: 500; /* Normal font weight */
+  padding: 5px 10px; /* Padding around the links */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+}
+
+.nav-list a:hover {
+  background-color: #4a8bd8; /* Change background on hover */
+  color: #fff; /* Text color on hover */
+}
+
+.next-week {
+  display: inline-block; /* Make it an inline-block for better spacing */
+  padding: 10px 20px; /* Padding for the button */
+  font-family: 'Montserrat', sans-serif; /* Use Montserrat font */
+  font-size: 1rem; /* Font size */
+  color: white; /* Text color */
+  background-color: #3266c7; /* Button background color */
+  border: none; /* No border */
+  border-radius: 25px; /* Rounded edges */
+  text-decoration: none; /* Remove underline */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+  margin-top: 20px; /* Add some space above the button */
+}
+
+.next-week:hover {
+  background-color: #4a8bd8; /* Change background on hover */
+  transform: scale(1.05); /* Slightly increase size on hover */
 }
