@@ -190,7 +190,7 @@ nav {
   font-family: 'Press Start 2P', cursive;
   font-size: 1rem; 
   color: white; 
-  background-color: #e1a5f0; 
+  background-color: #ece891; 
   border: none; 
   border-radius: 15px; 
   text-decoration: none; 
@@ -199,6 +199,6 @@ nav {
 }
 
 .next-week:hover {
-  background-color: #ece891; 
+  background-color: #e1a5f0; 
   transform: scale(1.05); 
 }
