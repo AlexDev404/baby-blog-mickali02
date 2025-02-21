@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Week 5 - Life in Advance Database</title>
     <link rel="stylesheet" href="/static/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="other-pages">
     <header>
+        <!-- Logo -->
         <div class="logo">
             <a href="/">MICKALI GARBUTT</a>
         </div>
@@ -24,24 +26,21 @@
         <li><a href="/week5">Week 5</a></li>
     </ul>
 </nav>
-
         <main>
+            <!-- Week 5 Content -->
             <h1>Week 5</h1>
-            <p>In Week 5, we focused on configuring our Go web application and 
-                setting up the project structure. We learned about command line 
-                flags, which allow for runtime configuration changes, enabling 
-                different setups for development, testing, and production environments. 
-                The project setup involved creating a directory, initializing Git and a 
-                Go module, and setting up necessary files, including a simple "Hello, World!" 
-                application. We implemented a basic web server using the http package and 
-                established routing with http.NewServeMux(), along with command line flag 
-                implementation for customizable network addresses. Additionally, we introduced 
-                structured logging using log/slog, enhancing our application's logging capabilities
-                by allowing for concurrency-safe logs that can be redirected to a file. Lastly, we 
-                completed self-assessment tasks that involved adding logging middleware and exploring
-                various logging options for our web application.
-
+            <p class="custom-font">In Week 5, we configured our Go web application and 
+                set up the project structure. We learned about command line flags for changing 
+                settings at runtime, allowing us to customize our application for different environments.
+                 We created a basic web server using the http package and established routing with http.NewServeMux(). 
+                 A key topic this week was dependency injection, which is a design pattern that helps manage how different
+                parts of our application work together. Instead of having each part create its dependencies, we provide them 
+                from outside, making it easier to test and maintain our code. For example, if we need to change a database or 
+                a logging method, we can easily swap it without changing the rest of the code.We also introduced structured 
+                logging with log/slog, improving our logging capabilities. Lastly, we completed self-assessment tasks involving 
+                logging middleware and exploring various logging options.
             </p>
+            <!-- Week 5 code we completed in class. Not fully updated as yet. -->
             <pre>
                 <code>
                 // Filename: main.go
@@ -83,14 +82,16 @@
                 }
                 </code>
             </pre>                
-                <p>Key topics included:</p>
-                <ul>
-                    <li>Go Web Application Configuration & Project Structure</li>
-                    <li>Command Line Flags in Go</li>
-                    <li>Building a Basic Web Server</li>
-                    <li>Structured Logging in Go</li>
-                    <li>Self-Assessment Tasks</li>
-                </ul>
-        </main>
+            <p class="custom-font">Key topics included:</p>
+            <ul>
+                <li>Go Web Application Configuration & Project Structure</li>
+                <li>Command Line Flags in Go</li>
+                <li>Building a Basic Web Server</li>
+                <li>Structured Logging in Go</li>
+                <li>Dependency Injection for Effective Dependency Management</li>
+                <li>Self-Assessment Tasks</li>
+            </ul>       
+            <!-- Next week button-->  
+            <a href="/home" class="next-week">Home</a>   
     </body>
     </html>
