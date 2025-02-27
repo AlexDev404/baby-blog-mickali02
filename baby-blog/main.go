@@ -5,7 +5,9 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"html/template"
 )
+
 
 // Middleware function to log requests
 func loggingMiddleware(next http.Handler) http.Handler {
@@ -24,11 +26,43 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func week1Handler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "./templates/week1.html")
+	tmpl, err := template.ParseFiles("./templates/week1.tmpl")
+	if err != nil { 
+     log.Print(err.Error())
+     http.Error(w, "Internal Server Error",http.StatusInternalServerError)   
+     return 
+	}
+	data := map[string]string {
+    "Title": "Life in Adavance Database",
+	"Header": "Week 1",
+	}
+	
+	err = tmpl.Execute(w, data)
+	if err != nil { 
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error",http.StatusInternalServerError)   
+		return 
+   }
 }
 
 func week2Handler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "./templates/week2.html")
+	tmpl, err := template.ParseFiles("./templates/week2.tmpl")
+	if err != nil { 
+     log.Print(err.Error())
+     http.Error(w, "Internal Server Error",http.StatusInternalServerError)   
+     return 
+	}
+	data := map[string]string {
+    "Title": "Life in Adavance Database",
+	"Header": "Week 1",
+	}
+	
+	err = tmpl.Execute(w, data)
+	if err != nil { 
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error",http.StatusInternalServerError)   
+		return 
+   }
 }
 
 func week3Handler(w http.ResponseWriter, r *http.Request) {
